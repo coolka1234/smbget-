@@ -30,15 +30,20 @@ fn main() {
              .required(true)
              .short("s")
              .long("server"))
+        .arg(Arg::with_name("share")
+             .help("Share name on the Samba server")
+             .short("s")
+             .long("share"))
         .get_matches();
     let source = matches.value_of("source").unwrap();
     let destination = matches.value_of("destination").unwrap();
     let username = matches.value_of("username").unwrap();
     let password = matches.value_of("password").unwrap();
     let server = matches.value_of("server").unwrap();
+    let share = matches.value_of("share").unwrap_or("share");
 
     // Call function to copy file to Samba server
-    copy_to_samba(source, destination, username, password, server);   
+    copy_to_samba(source, destination, username, password, server, share);   
      
 }
 fn create_progress_bar(quiet_mode: bool, msg: &str, length: Option<u64>) -> ProgressBar {
@@ -64,11 +69,11 @@ fn create_progress_bar(quiet_mode: bool, msg: &str, length: Option<u64>) -> Prog
     bar
 }
 extern crate pavao;
-use pavao::{SmbClient, SmbCredentials, SmbOptions, SmbOpenOptions};
+use pavao::{SmbClient, SmbCredentials, SmbOptions};
 use std::fs::File;
 use std::io::Read;
 
-fn copy_to_samba(source: &str, destination: &str, username: &str, password: &str, server: &str) {
+fn copy_to_samba(source: &str, destination: &str, username: &str, password: &str, server: &str, share: &str) {
     // Read the source file
     let mut file = File::open(source).expect("Failed to open source file");
     let mut buffer = Vec::new();
@@ -79,6 +84,7 @@ fn copy_to_samba(source: &str, destination: &str, username: &str, password: &str
     SmbCredentials::default()
         .server(server)
         .username(username)
+        .share(share)
         .password(password)
     ,SmbOptions::default().one_share_per_server(true),
     )
@@ -90,6 +96,6 @@ fn copy_to_samba(source: &str, destination: &str, username: &str, password: &str
 
     // Write the file to the destination on the Samba server
     client
-        .write_file(destination, &buffer)
+        .write(destination, &buffer)
         .expect("Failed to write file to Samba server");
 }
