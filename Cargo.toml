@@ -1,6 +1,7 @@
 [package]
 name = "smbup"
-version = "0.1.0"
-edition = "2021"
+version = "0.0.1"
+authors = ["Krzysztof Kulka <krzysztof.kulka1234@gmail.com>"]
 
 [dependencies]
+clap = "2.26.0"
