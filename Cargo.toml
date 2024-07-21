@@ -4,5 +4,6 @@ version = "0.0.1"
 authors = ["Krzysztof Kulka <krzysztof.kulka1234@gmail.com>"]
 
 [dependencies]
-clap = "2.26.0"
+clap = "2.2.6"
 indicatif = "0.15.0"
+pavao = "0.2"
