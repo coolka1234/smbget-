@@ -74,7 +74,6 @@ use std::fs::File;
 use std::io::Read;
 
 fn copy_to_samba(source: &str, destination: &str, username: &str, password: &str, server: &str, share: &str) {
-    // Read the source file
     let mut file = File::open(source).expect("Failed to open source file");
     let mut buffer = Vec::new();
     file.read_to_end(&mut buffer).expect("Failed to read source file");
@@ -94,7 +93,6 @@ fn copy_to_samba(source: &str, destination: &str, username: &str, password: &str
         // .connect()
         // .expect("Failed to connect to Samba server");
 
-    // Write the file to the destination on the Samba server
     client
         .write(destination, &buffer)
         .expect("Failed to write file to Samba server");
