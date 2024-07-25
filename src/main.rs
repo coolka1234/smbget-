@@ -42,7 +42,6 @@ fn main() {
     let server = matches.value_of("server").unwrap();
     let share = matches.value_of("share").unwrap_or("share");
 
-    // Call function to copy file to Samba server
     copy_to_samba(source, destination, username, password, server, share);   
      
 }
